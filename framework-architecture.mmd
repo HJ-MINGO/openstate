@@ -1,0 +1,10 @@
+flowchart LR
+    U[사용자\n요청 + thread_id] --> R[run_workflow.py\n실행 시작점]
+    R --> G[LangGraph StateGraph\n실행 순서·분기·공통 상태]
+    G <-->|체크포인트 저장| DB[(SQLite Checkpointer\nthread_id별 상태)]
+    G -->|1. 분석| CA[CodexCliAgent]
+    CA -->|codex exec --json| C[Codex CLI]
+    C -->|결과 + thread ID| G
+    G -->|2. 검토 + 인계| AA[AntigravityCliAgent]
+    AA -->|agy --print --output-format json| A[Antigravity CLI]
+    A -->|결과 + conversation_id| G

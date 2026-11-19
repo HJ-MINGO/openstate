@@ -1,0 +1,12 @@
+README.md
+pyproject.toml
+src/cli_collab/__init__.py
+src/cli_collab/agents.py
+src/cli_collab/call_cli.py
+src/cli_collab/models.py
+src/cli_collaboration_lab.egg-info/PKG-INFO
+src/cli_collaboration_lab.egg-info/SOURCES.txt
+src/cli_collaboration_lab.egg-info/dependency_links.txt
+src/cli_collaboration_lab.egg-info/requires.txt
+src/cli_collaboration_lab.egg-info/top_level.txt
+tests/test_agents.py

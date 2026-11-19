@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {"title": "CLI 멀티에이전트 협업 프레임워크", "quality_profile": "showcase"},
+  "components": [
+    {"id":"user","type":"external","label":"사용자","sublabel":"요청 + thread_id","pos":[40,260],"size":[130,64]},
+    {"id":"runner","type":"backend","label":"run_workflow.py","sublabel":"실행 시작점","pos":[230,260],"size":[150,64]},
+    {"id":"graph","type":"backend","label":"LangGraph StateGraph","sublabel":"실행 순서 + 공통 상태","pos":[450,260],"size":[170,64]},
+    {"id":"sqlite","type":"database","label":"SQLite Checkpointer","sublabel":"thread_id별 상태 저장","pos":[450,100],"size":[170,64]},
+    {"id":"codex_adapter","type":"backend","label":"CodexCliAgent","sublabel":"CLI 실행 어댑터","pos":[700,190],"size":[150,64]},
+    {"id":"antigravity_adapter","type":"backend","label":"AntigravityCliAgent","sublabel":"CLI 실행 어댑터","pos":[700,350],"size":[170,64]},
+    {"id":"codex","type":"external","label":"Codex CLI","sublabel":"Codex thread","pos":[930,190],"size":[140,64]},
+    {"id":"antigravity","type":"external","label":"Antigravity CLI","sublabel":"conversation_id","pos":[930,350],"size":[160,64]}
+  ],
+  "connections": [
+    {"from":"user","to":"runner","label":"요청 + thread_id","variant":"emphasis","labelDy":56},
+    {"from":"runner","to":"graph","label":"invoke"},
+    {"from":"graph","to":"sqlite","label":"checkpoint","fromSide":"top","toSide":"bottom"},
+    {"from":"graph","to":"codex_adapter","label":"1. 분석","fromSide":"right","toSide":"left"},
+    {"from":"codex_adapter","to":"codex","label":"codex exec --json","labelDy":-19},
+    {"from":"codex","to":"graph","label":"결과 + thread ID","variant":"dashed","fromSide":"left","toSide":"right","labelDy":25},
+    {"from":"graph","to":"antigravity_adapter","label":"2. 검토 + 인계","fromSide":"right","toSide":"left"},
+    {"from":"antigravity_adapter","to":"antigravity","label":"agy --print --output-format json","labelDy":49},
+    {"from":"antigravity","to":"graph","label":"결과 + conversation_id","variant":"dashed","fromSide":"left","toSide":"right"}
+  ],
+  "cards": [
+    {"dot":"cyan","title":"공통 상태","items":["작업 요약과 CLI 세션 ID를 저장", "토큰과 사설 CLI 대화 DB는 저장하지 않음"]},
+    {"dot":"emerald","title":"실행 순서","items":["Codex가 먼저 분석", "Antigravity가 인계받아 검토"]},
+    {"dot":"amber","title":"향후 확장","items":["Skill은 반복 업무 절차를 정의", "MCP는 공통 자율 도구를 추가"]}
+  ]
+}
