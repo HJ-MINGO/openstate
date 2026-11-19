@@ -72,14 +72,14 @@ class WorkflowTests(unittest.TestCase):
 
     def test_sqlite_checkpoint_survives_checkpointer_reopen(self) -> None:
         """SQLite 파일을 닫고 다시 열어도 같은 thread의 State를 복구한다."""
-        # Windows의 시스템 TEMP가 접근 불가한 위치를 가리킬 수 있으므로,
-        # 프로젝트가 관리하고 Git에서 제외하는 .data 아래에 테스트 DB를 둡니다.
+
+
         data_directory = Path(__file__).resolve().parents[1] / ".data"
         data_directory.mkdir(exist_ok=True)
         database = data_directory / "test-checkpoints.sqlite"
         config = {"configurable": {"thread_id": "persisted-thread"}}
 
-        # 첫 프로세스 실행을 가정한 checkpointer 인스턴스입니다.
+
         with SqliteSaver.from_conn_string(str(database)) as first_checkpointer:
             first_checkpointer.delete_thread("persisted-thread")
             first_app = build_workflow(
@@ -89,7 +89,7 @@ class WorkflowTests(unittest.TestCase):
             )
             first_app.invoke({"user_request": "첫 요청"}, config)
 
-        # 프로그램을 다시 시작한 것처럼 새로운 checkpointer와 graph를 만듭니다.
+
         with SqliteSaver.from_conn_string(str(database)) as reopened_checkpointer:
             reopened_app = build_workflow(
                 reopened_checkpointer,

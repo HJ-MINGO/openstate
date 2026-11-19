@@ -6,13 +6,13 @@ Skill 문서는 사람이 읽는 절차서이고, 이 모듈은 그중 반드시
 
 from __future__ import annotations
 
-# dataclass는 검사 결과를 변경 불가능한 작은 값 객체로 표현합니다.
+
 from dataclasses import dataclass
 
 
-# 한 번의 CLI 실행이 점유할 수 있는 최대 시간(초)입니다.
+
 MAX_TIMEOUT_SECONDS = 600
-# 이 인자는 제공자 sandbox 또는 승인 절차를 우회하므로 어떤 Adapter에도 허용하지 않습니다.
+
 _FORBIDDEN_ARGUMENTS = frozenset(
     {"--dangerously-bypass-approvals-and-sandbox", "--yolo", "--no-sandbox"}
 )
@@ -22,9 +22,9 @@ _FORBIDDEN_ARGUMENTS = frozenset(
 class PreflightResult:
     """한 번의 CLI 호출에 대한 사전 검증 결과입니다."""
 
-    # 실행을 계속해도 되는지 나타냅니다.
+
     allowed: bool
-    # 허용 또는 거부한 이유이며 workflow의 agent_runs에도 기록됩니다.
+
     reason: str
 
 
