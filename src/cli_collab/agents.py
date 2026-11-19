@@ -1,6 +1,3 @@
-"""구독형 CLI를 LangGraph Node에서 호출할 수 있게 만드는 Adapter 계층입니다."""
-
-
 from __future__ import annotations
 
 
@@ -25,12 +22,6 @@ from .preflight import PreflightResult, validate_cli_command
 
 
 class CliAgent(ABC):
-    """모든 CLI Agent가 구현하는 공통 실행 흐름입니다.
-
-    하위 클래스는 명령 인자만 제공하고, 이 클래스는 실행 파일 탐색·preflight·timeout·출력
-    파싱을 공통 처리합니다.
-    """
-
 
     name: str
 
